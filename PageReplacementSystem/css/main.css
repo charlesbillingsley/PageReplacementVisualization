@@ -1,0 +1,389 @@
+body {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    height: 100%;
+}
+
+#newInput {
+    display: inline-block;
+}
+
+#prompt {
+    font-size: x-large;
+}
+
+#pageContent {
+    padding-bottom: 70px;
+    overflow:auto;
+    display: flex;
+    justify-content: center;
+}
+
+#totals {
+    text-align: center;
+}
+
+#statsContent {
+    padding-bottom: 70px;
+    overflow:auto;
+    display: flex;
+    justify-content: center;
+}
+
+.errorBanner {
+    padding: 5px 5px 5px 10px;
+    background-color: #f44336;
+    color: white;
+}
+
+.successBanner {
+    padding: 5px 5px 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+#bannerWords {
+    display: inline-block;
+    margin-left: 3%;
+}
+
+#firstFileInputDiv {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#firstFileInputDiv p{
+    text-align: center;
+}
+
+#secondFileInputDiv {
+    padding-bottom: 8px;
+    padding-top: 8px;
+    display: flex;
+    justify-content: center;
+}
+
+.fileInput {
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+.fileButton {
+    padding: 8px 16px;
+}
+
+.statsButton {
+    padding: 8px 16px;
+}
+
+.statsButton:hover {
+    padding: 8px 16px;
+}
+
+.button.blue {
+    background-color: #1C62BD;
+    color: white;
+    border: solid white;
+}
+.button.blue:hover {
+    background-color: white;
+    color: #1C62BD;
+    border: solid #1C62BD;
+}
+
+.button.white {
+    background-color: white;
+    color: #1C62BD;
+    border: solid #1C62BD;
+}
+
+.button.white:hover {
+    background-color: #1C62BD;
+    color: white;
+    border: solid white;
+}
+
+.button.green {
+    background-color: white;
+    color: #287d2d;
+    border: solid #4caf50;
+}
+
+.button.green:hover {
+    background-color: #4caf50;
+    color: white;
+    border: solid white;
+}
+
+.button {
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#memoryRequests {
+    border-collapse: collapse;
+}
+
+#memoryRequests td, #memoryRequests th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+#memoryRequests tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+#memoryRequests th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #786BD8;
+    color: white;
+}
+
+
+
+#memoryRequestsContainer {
+    display: inline-block;
+    float: left;
+}
+
+#memoryRequestsContainer table{
+    float: left;
+    clear: left;
+    margin-bottom: 4px;
+}
+
+#processOrder {
+    border-collapse: collapse;
+}
+
+#processOrder td, #processOrder th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+#processOrder tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+#processOrder th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #786BD8;
+    color: white;
+}
+
+
+
+#processOrderContainer {
+    display: inline-block;
+    float: left;
+}
+
+#processOrderContainer table{
+    float: left;
+    clear: left;
+    margin-bottom: 4px;
+}
+
+.pcb {
+    border-collapse: collapse;
+    margin-left: 8px;
+}
+
+.pcb td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.pcb tr:nth-child(odd){
+    background-color: #f2f2f2;
+}
+
+.pcb th {
+    border: 1px solid #ddd;
+    padding: 12px 8px;
+    text-align: center;
+    background-color: #ffa512;
+    color: white;
+}
+
+#pcbContainer {
+    display: inline-block;
+    float: left;
+}
+
+#pcbContainer table{
+    float: left;
+    clear: left;
+    margin-bottom: 4px;
+}
+
+#pageTable {
+    border-collapse: collapse;
+    margin-left: 8px;
+}
+
+#pageTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+#pageTable tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+#pageTable th {
+    border: 1px solid #ddd;
+    padding: 12px 8px;
+    text-align: center;
+    background-color: #4a9e4a;
+    color: white;
+}
+
+#pageTableContainer {
+    display: inline-block;
+    float: left;
+}
+
+#pageTableContainer table{
+    float: left;
+    clear: left;
+    margin-bottom: 4px;
+}
+
+#processStats {
+    border-collapse: collapse;
+    margin-left: 8px;
+}
+
+#processStats td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+#processStats tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+#processStats th {
+    border: 1px solid #ddd;
+    padding: 12px 8px;
+    text-align: center;
+    background-color: #4c529e;
+    color: white;
+}
+
+#processStatsContainer {
+    display: inline-block;
+    float: left;
+}
+
+#processStatsContainer table{
+    float: left;
+    clear: left;
+    margin-bottom: 15px;
+}
+
+#freeFrameTable {
+    border-collapse: collapse;
+}
+
+#freeFrameTable td, #freeFrameTable th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+#freeFrameTable tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+#freeFrameTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #ff5959;
+    color: white;
+}
+
+#freeFrameContainer {
+    display: inline-block;
+    float: left;
+}
+
+#freeFrameContainer table{
+    float: left;
+    clear: left;
+    margin-bottom: 4px;
+}
+
+#physMemory {
+    border-collapse: collapse;
+    margin-left: 8px;
+}
+
+#physMemory td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+#physMemory tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+#physMemory th {
+    border: 1px solid #ddd;
+    padding: 12px 8px;
+    text-align: center;
+    background-color: #c558b3;
+    color: white;
+}
+
+#physicalMemoryContainer {
+    display: inline-block;
+    float: left;
+}
+
+#physicalMemoryContainer table{
+    float: left;
+    clear: left;
+    margin-bottom: 4px;
+}
+
+table {
+    display: inline-block;
+    float: left;
+}
+
+.button.white.footerButton {
+    padding: 16px 32px;
+}
+
+#footerButtonsBox {
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+footer {
+    display: table;
+    background-color: #1c62bd;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 70px;
+    width: 100%;
+    overflow:hidden;
+    margin-top: -70px;
+}

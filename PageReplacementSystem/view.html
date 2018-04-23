@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <title>Page Replacement System</title>
+
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body data-bind="visible: true" style="display: none">
+        <!--A banner that displays any errors encountered-->
+        <div class="errorBanner" data-bind="visible: errorBanner">
+            <p data-bind="text: errorBanner"></p>
+        </div>
+
+        <!--A banner that displays any successes encountered-->
+        <div class="successBanner" data-bind="visible: successBanner">
+            <p data-bind="text: successBanner" id="bannerWords"></p>
+        </div>
+
+        <!--Information needed to load the memory requests from the file-->
+        <!-- ko if: fileInputNumber() == 1 -->
+        <div id="firstFileInputDiv">
+            <p id="prompt">Please enter a file to parse</p>
+            <input class="fileInput" data-bind="value: requestedFile">
+            <button class="fileButton button blue" data-bind="click: getAllDataFromFile">Get Data</button>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: fileInputNumber() == 2 -->
+        <div id="secondFileInputDiv">
+            <div id="newInput">
+                <input class="fileInput" data-bind="value: requestedFile">
+                <button class="fileButton button blue" data-bind="click: function(){getAllDataFromFile()}">Start New</button>
+                <button id="stats" class="statsButton button blue" data-bind="click: function(){showStats(true)}, visible: !showStats()">Open Stats</button>
+                <button id="stats" class="statsButton button blue" data-bind="click: function(){showStats(false)}, visible: showStats()">Close Stats</button>
+            </div>
+        </div>
+        <!-- /ko -->
+
+        <div id="pageContent" data-bind="visible: !showStats()">
+           <!--Table containing the memory request pulled in from the file-->
+            <div id="memoryRequestsContainer">
+                <table id="memoryRequests">
+                    <thead>
+                        <tr>
+                            <th data-bind="visible: shouldShowMemoryRequestTitle">Loaded Memory Requests</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: {data: lines, as: 'line'}">
+                        <tr>
+                            <td data-bind="text: line"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--Table containing the order of each process-->
+            <div id="processOrderContainer">
+                <table id="processOrder">
+                    <thead>
+                        <tr>
+                            <th data-bind="visible: orderedProcesses()[0]">Current Order</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: {data: orderedProcesses, as: 'process'}">
+                        <tr>
+                            <td data-bind="text: process"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--Table containing relevant PCB information-->
+            <div id="pcbContainer" data-bind="foreach: {data: pcbsObservable, as: 'pcb'}">
+                <table data-bind="attr: {id: 'pcb' + $index()}" class="pcb" >
+                    <thead>
+                        <tr>
+                            <th colspan="2">PCB</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Process</th>
+                            <th>Page Table</th>
+                        </tr>
+                        <tr>
+                            <td data-bind="text: pcb"></td>
+                            <td>T<span data-bind="text: $index"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--Table representing te page table-->
+            <div id="pageTableContainer" data-bind="foreach: {data: pageTablesObservable, as: 'tables'}">
+                <table id="pageTable" >
+                    <thead>
+                        <tr>
+                            <th colspan="2">Page Table T<span data-bind="text: $index"></span> </th>
+                        </tr>
+                        <tr>
+                            <th>Logical Page</th>
+                            <th>Physical Frame</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: {data: tables, as: 'table'}">
+                        <tr data-bind="foreach: {data: table, as: 'entry'}">
+                            <td data-bind="text: entry['va'], attr: {id: 'pgtV' + '_' + $parentContext.$parentContext.$index() + '_' + $parentContext.$index()}"></td>
+                            <td data-bind="text: entry['pa'], attr: {id: 'pgtP' + '_' + $parentContext.$parentContext.$index() + '_' + $parentContext.$index()}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--Table representing te free frame list-->
+            <div id="freeFrameContainer" data-bind="visible: shouldShowFreeFrameList">
+                <table id="freeFrameTable">
+                    <thead>
+                        <tr>
+                            <th>Free Frame List</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <!-- ko foreach: new Array(physicalFrames()) -->
+                        <tr>
+                            <td data-bind="text: $index"></td>
+                        </tr>
+                    <!-- /ko -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!--Table representing te physical memory-->
+            <div id="physicalMemoryContainer" data-bind="visible: shouldShowPhysMem">
+                <table id="physMemory" >
+                    <thead>
+                        <tr>
+                            <th colspan="2">Physical Memory</th>
+                        </tr>
+                        <tr>
+                            <th>Frame Number</th>
+                            <th>In Use By</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: physicalMemoryObservable">
+                        <tr>
+                            <td data-bind="text: $index, attr: {id: 'frameNum' + '_' + $index()}"></td>
+                            <td data-bind="text: $data, attr: {id: 'frameUse' + '_' + $index()}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!--<div id="totals" data-bind="visible: showStats()">-->
+            <!--<p>Total Page Faults: <span data-bind="text: pageFaults"></span></p>-->
+        <!--</div>-->
+        <div id="statsContent" data-bind="visible: showStats()">
+            <div id="processStatsContainer" data-bind="foreach: {data: processStatsObservable, as: 'processes'}">
+                <table id="processStats" >
+                    <thead>
+                    <tr>
+                        <th colspan="3">Process <span data-bind="text: ('P' + ($index()+1)), attr: {id: 'procNum' + '_' + $index()}"></span> Stats </th>
+                    </tr>
+                    <tr>
+                        <th>Total Size (Pages)</th>
+                        <th>Total Number of Memory References</th>
+                        <th>Total Number of Page Faults</th>
+                    </tr>
+                    </thead>
+                    <tbody data-bind="foreach: {data: processes, as: 'process'}">
+                    <tr data-bind="foreach: {data: process, as: 'stat'}">
+                        <td data-bind="text: stat['size']"></td>
+                        <td data-bind="text: stat['references']"></td>
+                        <td data-bind="text: stat['faults']"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!--Buttons to control the simulation-->
+        <!-- ko if: errorBanner() == '' -->
+        <footer data-bind="visible: showFooter">
+            <div id="footerButtonsBox">
+                <button class="button white footerButton" data-bind="click: function(){run(true,false,false)}">Step Forward</button>
+                <button class="button white footerButton" data-bind="click: function(){run(false,true,false)}">Next Fault</button>
+                <button class="button white footerButton" data-bind="click: function(){run(false,false,true)}">Complete</button>
+            </div>
+        </footer>
+        <!-- /ko -->
+
+        <script src="js/vendor/jquery-1.11.0.min.js"></script>
+        <script src="js/vendor/knockout-3.4.2.js"></script>
+        <script src="js/vendor/ko.observableDictionary.js"></script>
+        <script src="js/model.js"></script>
+        <script src="js/controller.js"></script>
+    </body>
+</html>
